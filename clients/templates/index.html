@@ -30,37 +30,46 @@
                 pageSize: 10,
                 pageButtonCount: 5,
 
-                deleteConfirm: "Do you really want to delete client?",
+                confirmDeleting: false,
+
+                onItemDeleting: function(args) {
+                    console.log('delete : ', args.item);
+                    // bootbox.alert("Hello world!");
+                    if ( confirm("Are you sure you want to delete '"
+                                 + args.item.name + "' ?") ) {
+                        args.cancel = false;
+                    } else {
+                        args.cancel = true;
+                    }
+                },
 
                 controller: {
                     loadData: function(filter) {
-                        var d = $.Deferred();
-
-                        $.ajax({
+                        return $.ajax({
                             type: "GET",
-                            url: "/clients/api",
+                            url: "/clients/api/",
+                            contentType: "application/json",
+                            Accept: "application/json",
+                            dataType: "json",
                             data: filter
-                        }).done(function(result) {
-                            d.resolve($.map(result, function(item) {
-                                return $.extend(item.fields, { id: item.pk });
-                            }));
                         });
-
-                        return d.promise();
                     },
 
                     insertItem: function(item) {
+                        console.log('insertItem : ', item);
                         return $.ajax({
                             type: "POST",
-                            url: "/clients/api",
+                            url: "/clients/api/",
                             data: item
                         });
                     },
 
                     updateItem: function(item) {
+                        console.log('update : ', item.id);
+                        console.log('update_details : ', item);
                         return $.ajax({
                             type: "PUT",
-                            url: "/clients/api/" + item.id,
+                            url: "/clients/api/" + item.id + "/",
                             data: item
                         });
                     },
@@ -68,7 +77,7 @@
                     deleteItem: function(item) {
                         return $.ajax({
                             type: "DELETE",
-                            url: "/clients/api/" + item.id
+                            url: "/clients/api/" + item.id + "/"
                         });
                     }
                 },
