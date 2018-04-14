@@ -33,8 +33,6 @@
                 confirmDeleting: false,
 
                 onItemDeleting: function(args) {
-                    console.log('delete : ', args.item);
-                    // bootbox.alert("Hello world!");
                     if ( confirm("Are you sure you want to delete '"
                                  + args.item.name + "' ?") ) {
                         args.cancel = false;
@@ -48,15 +46,12 @@
                         return $.ajax({
                             type: "GET",
                             url: "/clients/api/",
-                            contentType: "application/json",
-                            Accept: "application/json",
                             dataType: "json",
                             data: filter
                         });
                     },
 
                     insertItem: function(item) {
-                        console.log('insertItem : ', item);
                         return $.ajax({
                             type: "POST",
                             url: "/clients/api/",
@@ -65,8 +60,6 @@
                     },
 
                     updateItem: function(item) {
-                        console.log('update : ', item.id);
-                        console.log('update_details : ', item);
                         return $.ajax({
                             type: "PUT",
                             url: "/clients/api/" + item.id + "/",
